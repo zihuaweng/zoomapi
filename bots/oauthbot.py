@@ -1,8 +1,8 @@
 import sys, os
+
 filename = os.path.join(os.path.dirname(__file__), '..')
 sys.path.insert(1, filename)
 from zoomapi import OAuthZoomClient
-
 import json
 from configparser import ConfigParser
 from pyngrok import ngrok
@@ -23,20 +23,21 @@ client = OAuthZoomClient(client_id, client_secret, port, redirect_url, browser_p
 user_response = client.user.get(id='me')
 user = json.loads(user_response.content)
 print(user)
-print ('---')
+print('---')
 
 print(json.loads(client.meeting.list(user_id="me").content))
 client.chat_channels.list()
+print(json.loads(client.chat_channels.list().content))
 channels = json.loads(client.chat_channels.list().content)["channels"]
 print(channels)
 for c in channels:
     print(c)
     if "test" in c.values():
         print("Found channel test", c["id"])
-        cid = to_channel=c["id"]
+        cid = to_channel = c["id"]
 stop = False
 while not stop:
     message = input("Enter message: ")
     print(client.chat_messages.post(to_channel=cid, message=message))
     if message == "stop":
-        stop = True 
+        stop = True
