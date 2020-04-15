@@ -25,6 +25,8 @@ COMPONENT_CLASSES = {
         "report": components.report.ReportComponentV2,
         "webinar": components.webinar.WebinarComponentV2,
         "recording": components.recording.RecordingComponentV2,
+        "chat_channels": components.chat_channels.ChatChannelsComponentV2,
+        "chat_messages": components.chat_messages.ChatMessagesComponentV2
     },
 }
 
@@ -35,7 +37,7 @@ class JWTZoomClient(ZoomClient):
     """Base URL for Zoom API"""
 
     def __init__(
-        self, api_key, api_secret, data_type="json", timeout=15, version=API_VERSION_2
+            self, api_key, api_secret, data_type="json", timeout=15, version=API_VERSION_2
     ):
         """Create a new Zoom client
 

@@ -4,6 +4,7 @@
 
 from zoomapi import util
 
+
 class BaseComponent(util.ApiClient):
     """A base component"""
 
@@ -21,7 +22,7 @@ class BaseComponent(util.ApiClient):
         )
 
     def post_request(
-        self, endpoint, params=None, data=None, headers=None, cookies=None
+            self, endpoint, params=None, data=None, headers=None, cookies=None
     ):
         """Helper function for POST requests
 

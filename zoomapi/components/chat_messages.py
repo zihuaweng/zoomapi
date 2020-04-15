@@ -8,12 +8,22 @@ class ChatMessagesComponentV2(base.BaseComponent):
 
     @Throttled
     def list(self, **kwargs):
-        require_keys(kwargs, "user_id")
+        require_keys(kwargs, "userId")
         return self.get_request(
-                "/chat/users/{}/messages".format(kwargs.get("user_id")), params=kwargs
+            "/chat/users/{}/messages".format(kwargs.get("userId")), params=kwargs
         )
 
     @Throttled
-    def post(self, **kwargs):
-        require_keys(kwargs, "message")
+    def send(self, **kwargs):
+        require_keys(kwargs, ["message", "to_contact"])
         return self.post_request("/chat/users/me/messages", data=kwargs)
+
+    @Throttled
+    def update(self, **kwargs):
+        require_keys(kwargs, ["messageId", "message", "to_contact"])
+        return self.put_request("/chat/users/me/messages/{}".format(kwargs.get("messageId")), data=kwargs)
+
+    @Throttled
+    def delete(self, **kwargs):
+        require_keys(kwargs, ["messageId", "to_contact"])
+        return self.delete_request("/chat/users/me/messages/{}".format(kwargs.get("messageId")), params=kwargs)

@@ -15,6 +15,7 @@ from urllib.parse import urlparse, urlencode, quote
 import os
 import functools, time
 
+
 class ApiClient(object):
     """Simple wrapper for REST API requests"""
 
@@ -85,7 +86,7 @@ class ApiClient(object):
         )
 
     def post_request(
-        self, endpoint, params=None, data=None, headers=None, cookies=None
+            self, endpoint, params=None, data=None, headers=None, cookies=None
     ):
         """Helper function for POST requests
 
@@ -112,7 +113,7 @@ class ApiClient(object):
         )
 
     def patch_request(
-        self, endpoint, params=None, data=None, headers=None, cookies=None
+            self, endpoint, params=None, data=None, headers=None, cookies=None
     ):
         """Helper function for PATCH requests
 
@@ -139,7 +140,7 @@ class ApiClient(object):
         )
 
     def delete_request(
-        self, endpoint, params=None, data=None, headers=None, cookies=None
+            self, endpoint, params=None, data=None, headers=None, cookies=None
     ):
         """Helper function for DELETE requests
 
@@ -259,8 +260,10 @@ def generate_jwt(key, secret):
     token = jwt.encode(payload, secret, algorithm="HS256", headers=header)
     return token.decode("utf-8")
 
+
 class TokenHandler(BaseHTTPRequestHandler):
     code = None
+
     def do_GET(self):
         print("GET request to " + self.path)
         query = urlparse(self.path).query
@@ -272,6 +275,7 @@ class TokenHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
+
 def http_receiver(port):
     with socketserver.TCPServer(("", port), TokenHandler) as httpd:
         print("serving at port", port)
@@ -279,18 +283,17 @@ def http_receiver(port):
             httpd.handle_request()
         print("End of http receiver")
 
-def get_oauth_token(cid, client_secret, port, redirect_url, browser_path):
 
-    oauth = OAuth2Session(client_id = cid, redirect_uri = redirect_url)
+def get_oauth_token(cid, client_secret, port, redirect_url, browser_path):
+    oauth = OAuth2Session(client_id=cid, redirect_uri=redirect_url)
     authorization_url, state = oauth.authorization_url(
         'https://zoom.us/oauth/authorize')
 
-    print ('Going to %s to authorize access.' % authorization_url)
+    print('Going to %s to authorize access.' % authorization_url)
     if os.name == 'nt':
         authorization_url = authorization_url.replace('&', '^&')
     else:
         authorization_url = authorization_url.replace('&', '\&')
-    print(authorization_url)
     os.system(browser_path + " " + authorization_url)
 
     http_receiver(port)
@@ -302,9 +305,11 @@ def get_oauth_token(cid, client_secret, port, redirect_url, browser_path):
     resp = dict(token)
     return resp["access_token"]
 
+
 class Throttled:
-    INTERVAL = 0.150 # A bit slower than the documented rate
+    INTERVAL = 0.150  # A bit slower than the documented rate
     time = 0
+
     def __init__(self, func):
         functools.update_wrapper(self, func)
         self.func = func
