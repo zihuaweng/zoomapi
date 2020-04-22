@@ -12,7 +12,6 @@ class ChatChannelsComponentV2(base.BaseComponent):
         return self.get_request("/chat/users/me/channels", params=kwargs)
 
     def create(self, **kwargs):
-        require_keys(kwargs, ["name", "type", "members"])
         return self.post_request("/chat/users/me/channels", data=kwargs)
 
     def get(self, **kwargs):
@@ -20,7 +19,7 @@ class ChatChannelsComponentV2(base.BaseComponent):
         return self.get_request("/chat/channels/{}".format(kwargs.get("channelId")), params=kwargs)
 
     def update(self, **kwargs):
-        require_keys(kwargs, ["channelId", "name"])
+        require_keys(kwargs, "channelId")
         return self.patch_request("/chat/channels/{}".format(kwargs.get("channelId")), data=kwargs)
 
     def delete(self, **kwargs):
@@ -32,7 +31,7 @@ class ChatChannelsComponentV2(base.BaseComponent):
         return self.get_request("/chat/channels/{}/members".format(kwargs.get("channelId")), params=kwargs)
 
     def invite_member(self, **kwargs):
-        require_keys(kwargs, ["channelId", "members"])
+        require_keys(kwargs, "channelId")
         return self.post_request("/chat/channels/{}/members".format(kwargs.get("channelId")), data=kwargs)
 
     def join(self, **kwargs):

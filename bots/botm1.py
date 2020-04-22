@@ -25,6 +25,8 @@ browser_path = parser.get("OAuth", "browser_path")
 
 # Create http server
 redirect_url = ngrok.connect(port, "http")
+print("redirect_url")
+print(redirect_url)
 
 # Create Zoom client
 client = OAuthZoomClient(client_id, client_secret, port, redirect_url, browser_path)
